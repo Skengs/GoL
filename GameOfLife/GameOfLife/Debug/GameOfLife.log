@@ -1,0 +1,27 @@
+﻿Build started 02.10.2014 17:21:37.
+     1>Project "C:\Users\Oliver\Desktop\GameOfLife\GameOfLife\GameOfLife.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt BoardData.cpp BoardManager.cpp GameOfLife.cpp ILogic.cpp LogicSEQ.cpp stdafx.cpp Timer.cpp
+         Timer.cpp
+         stdafx.cpp
+         LogicSEQ.cpp
+     1>c:\users\oliver\desktop\gameoflife\gameoflife\logicseq.cpp(20): warning C4018: '<' : signed/unsigned mismatch
+         ILogic.cpp
+         GameOfLife.cpp
+         BoardManager.cpp
+         BoardData.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Oliver\Desktop\GameOfLife\Debug\GameOfLife.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Oliver\Desktop\GameOfLife\Debug\GameOfLife.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Oliver\Desktop\GameOfLife\Debug\GameOfLife.lib" /MACHINE:X86 Debug\BoardData.obj
+         Debug\BoardManager.obj
+         Debug\GameOfLife.obj
+         Debug\ILogic.obj
+         Debug\LogicSEQ.obj
+         Debug\stdafx.obj
+         Debug\Timer.obj
+         GameOfLife.vcxproj -> C:\Users\Oliver\Desktop\GameOfLife\Debug\GameOfLife.exe
+     1>Done Building Project "C:\Users\Oliver\Desktop\GameOfLife\GameOfLife\GameOfLife.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:15.86
