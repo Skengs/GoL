@@ -10,6 +10,6 @@ public:
 
 	void Swap();
 
-	std::vector<std::string> BoardFront, BoardBack;
+	std::vector<std::vector<bool>> BoardFront, BoardBack;
 };
 

@@ -47,11 +47,18 @@ int BoardManager::readMapFromFile(const std::string& fileName)
 
 	// read rest of map
 	_board.BoardFront.reserve(y);
+	_board.BoardFront.resize(y);
 	for(unsigned int i = 0; getline(myfile, line) && i < y; ++i)
 	{
 		if(line.length() > x || line.length() < x)
 			return 3;
-		_board.BoardFront.push_back(line);
+
+		_board.BoardFront[i].reserve(x);
+		_board.BoardFront[i].resize(x);
+		for (unsigned int j = 0; j < x; ++j)
+		{
+			_board.BoardFront[i][j] = (line[j] == 'x') ? true : false;
+		}
 	}
 
 	// reserve space in back board
@@ -77,7 +84,12 @@ void BoardManager::setLogicMode(LogicMode mode)
 		_logic = new LogicSEQ();
 		break;
 
-	// additional modes here
+	case LogicMode::SEQ2:
+		delete _logic;
+		_logic = new LogicSEQ2();
+		break;
+
+	// ADD MODES HERE (3 of 3)
 
 	default:
 		break;
@@ -93,7 +105,11 @@ void BoardManager::print() const
 {
 	for(auto i = _board.BoardFront.begin(); i != _board.BoardFront.end(); i++)
 	{
-			printf("%s\n", i->c_str());
+		for(auto j = i->begin(); j != i->end(); ++j)
+		{
+			printf("%c", (*j == true) ? 'x' : '.');
+		}
+		printf("\n");
 	}
 }
 
@@ -101,9 +117,17 @@ void BoardManager::print(const std::string& fileNameOut) const
 {
 	using namespace std;
 	ofstream fileOut(fileNameOut.c_str());
+	char c;
+
+	fileOut << _board.BoardFront[0].size() << ',' << _board.BoardFront.size() << endl;
 	for(auto i = _board.BoardFront.begin(); i != _board.BoardFront.end(); i++)
 	{
-		fileOut << *i << endl;
+		for(auto j = i->begin(); j != i->end(); ++j)
+		{
+			c = (*j == true) ? 'x' : '.';
+			fileOut << c;
+		}
+		fileOut << endl;
 	}
 	fileOut.close();
 }

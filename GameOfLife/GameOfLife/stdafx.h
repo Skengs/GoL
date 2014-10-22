@@ -19,7 +19,9 @@
 #include <vector>
 
 enum LogicMode{
-	SEQ
+	SEQ,
+	SEQ2
+	// ADD MODES HERE (1 of 3)
 };
 
 // TODO: reference additional headers your program requires here

@@ -18,7 +18,6 @@ int main(int argc, const char* argv[])
     // start timer
     timerInput.start();
 
-    // do something
 	string filenameIn="", filenameOut = "", mode = "seq";
 	int generations = 0;
 	bool measure = false;
@@ -62,19 +61,27 @@ int main(int argc, const char* argv[])
 	{
 		boardManager.setLogicMode(LogicMode::SEQ);
 	}
-	// Add additional modes here
+	else if(strcmp(mode.c_str(), "seq2") == 0)
+	{
+		boardManager.setLogicMode(LogicMode::SEQ2);
+	}
+	// ADD MODES HERE (2 of 3)
+
 
     timerInput.stop();
-    cout << timerInput.getElapsedTimeInMilliSec() << " ms.\n";
+    cout << "Timer 1: " << timerInput.getElapsedTimeInMilliSec() << " ms\n";
 
 	Timer timerCalc;
 	timerCalc.start();
 	boardManager.startLifeCycle(generations);
 	timerCalc.stop();
-	cout << timerCalc.getElapsedTimeInMilliSec() << " ms.\n";
+	cout << "Timer 2: " << timerCalc.getElapsedTimeInMilliSec() << " ms\n";
 
+	Timer timerPrint;
+	timerPrint.start();
 	boardManager.print(filenameOut);
-
+	timerPrint.stop();
+	cout << "Timer 3: " << timerPrint.getElapsedTimeInMilliSec() << " ms\n";
 
 	getchar();
 	return EXIT_SUCCESS;

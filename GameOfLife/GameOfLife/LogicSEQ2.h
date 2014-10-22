@@ -10,3 +10,11 @@ public:
 	virtual void runLifeCycle(BoardData& board, unsigned int generations);
 };
 
+struct Value 
+{
+public:
+	Value(void);
+	unsigned short _value;
+	int _modifier;
+	bool _hasChanged;
+};
