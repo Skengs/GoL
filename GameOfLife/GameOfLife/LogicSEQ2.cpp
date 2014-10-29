@@ -10,155 +10,247 @@ LogicSEQ2::~LogicSEQ2(void)
 {
 }
 
-// THIS DOES NOT WORK ATM, SEQ2 CAN BE DELETED
 
 void LogicSEQ2::runLifeCycle(BoardData& board, unsigned int generations)
 {
-	int x = 0, y = 0;
-
-	y = board.BoardFront.size();
-	x = board.BoardFront[0].size();
-
-	std::vector<std::vector<Value>> valueMapFront, valueMapBack;
-
-	valueMapFront.reserve(y);
-	valueMapFront.resize(y);
-	valueMapBack.reserve(y);
-	valueMapBack.resize(y);
-	for(int i = 0; i < y; ++i)
-	{
-		valueMapFront[i].reserve(x);
-		valueMapFront[i].resize(x);
-		valueMapBack[i].reserve(x);
-		valueMapBack[i].resize(x);
-	}
-
+	unsigned int lengthX = board.BoardFront[0].size();
+	unsigned int lengthY = board.BoardFront.size();
 	int countLives = 0;
-	int x_index, y_index;
 
-	// generate valueMap
-	for(int i = 0; i < y; ++i)
-	{
-		for(int j = 0; j < x; ++j)
-		{
-			countLives = 0;
-
-			// check neighbars of each element
-			for(int k = -1; k <= 1; ++k)
-			{
-				// check for y boundary
-				y_index = i + k;
-				if(y_index == -1)
-					y_index = y-1;
-				else if(y_index == y)
-					y_index = 0;
-
-				for(int l = -1; l <= 1; ++l)
-				{
-					// check for x boundary
-					x_index = j + l;
-					if(x_index == -1)
-						x_index = x-1;
-					else if(x_index == x)
-						x_index = 0;
-
-					countLives += board.BoardFront[y_index][x_index];
-				}
-			}
-			countLives -= board.BoardFront[i][j];
-			valueMapFront[i][j]._value = countLives;
-		}
-	}
-
-	int tmp_value;
-
-	// lifecycle loop
 	for(unsigned int h = 0; h < generations; ++h)
 	{
-		printf("%d\n", h+1);
-		for(int i = 0; i < y; ++i)
+
+		// --- CALC 4 CORNERS ---
+
+		// TOP LEFT CORNER
+		countLives = 0;
+		// top left
+		countLives += board.BoardFront[lengthY-1][lengthX-1];
+		// top
+		countLives += board.BoardFront[lengthY-1][0];
+		// top right
+		countLives += board.BoardFront[lengthY-1][1];
+		//center left
+		countLives += board.BoardFront[0][lengthX-1];
+		//center right
+		countLives += board.BoardFront[0][1];
+		//bottom left
+		countLives += board.BoardFront[1][lengthX-1];
+		//bottom center
+		countLives += board.BoardFront[1][0];
+		//bottom right
+		countLives += board.BoardFront[1][1];
+
+		applyLogicForCell(board, 0, 0, countLives);
+
+		// TOP RIGHT CORNER
+		countLives = 0;
+		// top left
+		countLives += board.BoardFront[lengthY-1][lengthX-2];
+		// top
+		countLives += board.BoardFront[lengthY-1][lengthX-1];
+		// top right
+		countLives += board.BoardFront[lengthY-1][0];
+		//center left
+		countLives += board.BoardFront[0][lengthX-2];
+		//center right
+		countLives += board.BoardFront[0][0];
+		//bottom left
+		countLives += board.BoardFront[1][lengthX-2];
+		//bottom center
+		countLives += board.BoardFront[1][lengthX-1];
+		//bottom right
+		countLives += board.BoardFront[1][0];
+
+		applyLogicForCell(board, 0, lengthX-1, countLives);
+
+		// BOTTOM RIGHT CORNER
+		countLives = 0;
+		// top left
+		countLives += board.BoardFront[lengthY-2][lengthX-2];
+		// top
+		countLives += board.BoardFront[lengthY-2][lengthX-1];
+		// top right
+		countLives += board.BoardFront[lengthY-2][0];
+		//center left
+		countLives += board.BoardFront[lengthY-1][lengthX-2];
+		//center right
+		countLives += board.BoardFront[lengthY-1][0];
+		//bottom left
+		countLives += board.BoardFront[0][lengthX-2];
+		//bottom center
+		countLives += board.BoardFront[0][lengthX-1];
+		//bottom right
+		countLives += board.BoardFront[0][0];
+
+		applyLogicForCell(board, lengthY-1, lengthX-1, countLives);
+
+		// BOTTOM LEFT CORNER
+		countLives = 0;
+		// top left
+		countLives += board.BoardFront[lengthY-2][lengthX-1];
+		// top
+		countLives += board.BoardFront[lengthY-2][0];
+		// top right
+		countLives += board.BoardFront[lengthY-2][1];
+		//center left
+		countLives += board.BoardFront[lengthY-1][lengthX-1];
+		//center right
+		countLives += board.BoardFront[lengthY-1][1];
+		//bottom left
+		countLives += board.BoardFront[0][lengthX-1];
+		//bottom center
+		countLives += board.BoardFront[0][0];
+		//bottom right
+		countLives += board.BoardFront[0][1];
+
+		applyLogicForCell(board, 0, 0, countLives);
+
+		// --- CALC 4 BORDERS ---
+
+		// TOP BORDER
+		for(unsigned int j = 1; j < lengthX-1; ++j)
 		{
-			for(int j = 0; j < x; ++j)
+			countLives = 0;
+			// top left
+			countLives += board.BoardFront[lengthY-1][j-1];
+			// top
+			countLives += board.BoardFront[lengthY-1][j];
+			// top right
+			countLives += board.BoardFront[lengthY-1][j+1];
+			//center left
+			countLives += board.BoardFront[0][j-1];
+			//center right
+			countLives += board.BoardFront[0][j+1];
+			//bottom left
+			countLives += board.BoardFront[1][j-1];
+			//bottom center
+			countLives += board.BoardFront[1][j];
+			//bottom right
+			countLives += board.BoardFront[1][j+1];
+
+			applyLogicForCell(board, 0, j, countLives);
+		}
+
+		// BOTTOM BORDER
+		for(unsigned int j = 1; j < lengthX-1; ++j)
+		{
+			countLives = 0;
+			// top left
+			countLives += board.BoardFront[lengthY-2][j-1];
+			// top
+			countLives += board.BoardFront[lengthY-2][j];
+			// top right
+			countLives += board.BoardFront[lengthY-2][j+1];
+			//center left
+			countLives += board.BoardFront[lengthY-1][j-1];
+			//center right
+			countLives += board.BoardFront[lengthY-1][j+1];
+			//bottom left
+			countLives += board.BoardFront[0][j-1];
+			//bottom center
+			countLives += board.BoardFront[0][j];
+			//bottom right
+			countLives += board.BoardFront[0][j+1];
+
+			applyLogicForCell(board, lengthY-1, j, countLives);
+		}
+
+		// LEFT BORDER
+		for(unsigned int i = 1; i < lengthX-1; ++i)
+		{
+			countLives = 0;
+			// top left
+			countLives += board.BoardFront[i-1][lengthX-1];
+			// top
+			countLives += board.BoardFront[i-1][0];
+			// top right
+			countLives += board.BoardFront[i-1][1];
+			//center left
+			countLives += board.BoardFront[i][lengthX-1];
+			//center right
+			countLives += board.BoardFront[i][1];
+			//bottom left
+			countLives += board.BoardFront[i+1][lengthX-1];
+			//bottom center
+			countLives += board.BoardFront[i+1][0];
+			//bottom right
+			countLives += board.BoardFront[i+1][1];
+
+			applyLogicForCell(board, i, 0, countLives);
+		}
+
+		// RIGHT BORDER
+		for(unsigned int i = 1; i < lengthX-1; ++i)
+		{
+			countLives = 0;
+			// top left
+			countLives += board.BoardFront[i-1][lengthX-2];
+			// top
+			countLives += board.BoardFront[i-1][lengthX-1];
+			// top right
+			countLives += board.BoardFront[i-1][0];
+			//center left
+			countLives += board.BoardFront[i][lengthX-2];
+			//center right
+			countLives += board.BoardFront[i][0];
+			//bottom left
+			countLives += board.BoardFront[i+1][lengthX-2];
+			//bottom center
+			countLives += board.BoardFront[i+1][lengthX-1];
+			//bottom right
+			countLives += board.BoardFront[i+1][0];
+
+			applyLogicForCell(board, i, lengthX-1, countLives);
+		}
+
+		// --- CALC INNER VALUES (all but borders) ---
+		for(unsigned int i = 1; i < lengthY-1; ++i)
+		{
+			for(unsigned int j = 1; j < lengthX-1; ++j)
 			{
+				countLives = 0;
 
-				// check if something has changed, possible skip
-				if(!valueMapFront[i][j]._hasChanged)
-				{
-					board.BoardBack[i][j] = board.BoardFront[i][j];
-				}
-				else 
-				{
-					valueMapFront[i][j]._modifier = 0;
-
-					// Logic
-					if(valueMapFront[i][j]._value < 2)
-					{
-						board.BoardBack[i][j] = false;
-					}
-					else if(valueMapFront[i][j]._value == 2)
-					{
-						board.BoardBack[i][j] = board.BoardFront[i][j];
-					}
-					else if (valueMapFront[i][j]._value == 3)
-					{
-						board.BoardBack[i][j] = true;
-					}
-					else 
-					{
-						board.BoardBack[i][j] = false;
-					}
-
-					// check if cell changed state
-					if(board.BoardBack[i][j] != board.BoardFront[i][j])
-					{
-						tmp_value = (board.BoardBack[i][j] == true) ? 1 : -1;
-
-						// update value in each neighbar
-						for(int k = -1; k <= 1; ++k)
-						{
-							// check for y boundary
-							y_index = i + k;
-							if(y_index == -1)
-								y_index = y-1;
-							else if(y_index == y)
-								y_index = 0;
-
-							for(int l = -1; l <= 1; ++l)
-							{
-								// check for x boundary
-								x_index = j + l;
-								if(x_index == -1)
-									x_index = x-1;
-								else if(x_index == x)
-									x_index = 0;
-
-								if(k != 0 && l != 0)
-								{
-									// "inform" neighbar of change to this cell
-									valueMapBack[y_index][x_index]._modifier += tmp_value;
-									valueMapBack[y_index][x_index]._value = 
-										valueMapFront[y_index][x_index]._value + 
-										valueMapBack[y_index][x_index]._modifier;
-									valueMapBack[y_index][x_index]._hasChanged = true;
-								}
-							}
-						}
-					}
-					/*
-					if(valueMapBack[i][j]._modifier == 0)
-						valueMapBack[i][j]._hasChanged = false;
-						*/
-				}
+				// top left
+				countLives += board.BoardFront[i-1][j-1];
+				// top
+				countLives += board.BoardFront[i-1][j];
+				// top right
+				countLives += board.BoardFront[i-1][j+1];
+				//center left
+				countLives += board.BoardFront[i][j-1];
+				//center right
+				countLives += board.BoardFront[i][j+1];
+				//bottom left
+				countLives += board.BoardFront[i+1][j-1];
+				//bottom center
+				countLives += board.BoardFront[i+1][j];
+				//bottom right
+				countLives += board.BoardFront[i+1][j+1];
+				
+				applyLogicForCell(board, i, j, countLives);
 			}
 		}
 		board.Swap();
-		valueMapFront.swap(valueMapBack);
 	}
 }
 
-Value::Value(void)
-	: _value(0)
-	, _modifier(0)
-	, _hasChanged(true)
+void LogicSEQ2::applyLogicForCell (BoardData& board, unsigned int y, unsigned int x, int countLives) const
 {
+	if(countLives < 2)
+	{
+		board.BoardBack[y][x] = false;
+	}
+	else if(countLives == 2)
+	{
+		board.BoardBack[y][x] = board.BoardFront[y][x];
+	}
+	else if (countLives == 3)
+	{
+		board.BoardBack[y][x] = true;
+	}
+	else 
+	{
+		board.BoardBack[y][x] = false;
+	}
 }

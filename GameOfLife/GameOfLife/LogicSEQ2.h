@@ -8,13 +8,7 @@ public:
 	LogicSEQ2(void);
 	virtual ~LogicSEQ2(void);
 	virtual void runLifeCycle(BoardData& board, unsigned int generations);
-};
 
-struct Value 
-{
-public:
-	Value(void);
-	unsigned short _value;
-	int _modifier;
-	bool _hasChanged;
+private:
+	void applyLogicForCell (BoardData& board, unsigned int y, unsigned int x, int countLives) const;
 };

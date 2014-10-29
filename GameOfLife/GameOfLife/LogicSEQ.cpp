@@ -16,7 +16,7 @@ void LogicSEQ::runLifeCycle(BoardData& board, unsigned int generations)
 	unsigned int lengthX = board.BoardFront[0].size();
 	unsigned int lengthY = board.BoardFront.size();
 	int countLives = 0;
-	//int y_index, x_index;
+	int y_index, x_index;
 
 	for(unsigned int h = 0; h < generations; ++h)
 	{
@@ -53,7 +53,7 @@ void LogicSEQ::runLifeCycle(BoardData& board, unsigned int generations)
 				countLives -= board.BoardFront[i][j];
 				*/
 
-
+				
 				// top left
 				countLives += board.BoardFront[(lengthY+i-1)%lengthY][(lengthX+j-1)%lengthX];
 				// top
