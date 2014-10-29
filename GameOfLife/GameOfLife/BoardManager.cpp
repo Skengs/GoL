@@ -45,29 +45,28 @@ int BoardManager::readMapFromFile(const std::string& fileName)
 	if (x == 0 || y == 0)
 		return 2;
 
+	_board.sizeX = x;
+	_board.sizeY = y;
+
 	// read rest of map
-	_board.BoardFront.reserve(y);
-	_board.BoardFront.resize(y);
+	_board.BoardFront = new bool*[y];
+	_board.BoardBack = new bool*[y];
+
+	for(unsigned int i = 0; i < y; ++i)
+	{
+		_board.BoardFront[i] = new bool[x];
+		_board.BoardBack[i] = new bool[x];
+	}
+
 	for(unsigned int i = 0; getline(myfile, line) && i < y; ++i)
 	{
 		if(line.length() > x || line.length() < x)
 			return 3;
 
-		_board.BoardFront[i].reserve(x);
-		_board.BoardFront[i].resize(x);
 		for (unsigned int j = 0; j < x; ++j)
 		{
 			_board.BoardFront[i][j] = (line[j] == 'x') ? true : false;
 		}
-	}
-
-	// reserve space in back board
-	_board.BoardBack.reserve(y);
-	_board.BoardBack.resize(y);
-	for(unsigned int i = 0; i < y; ++i)
-	{
-		_board.BoardBack[i].reserve(x);
-		_board.BoardBack[i].resize(x);
 	}
 
 	myfile.close();
@@ -103,11 +102,11 @@ void BoardManager::startLifeCycle(unsigned int generations)
 
 void BoardManager::print() const
 {
-	for(auto i = _board.BoardFront.begin(); i != _board.BoardFront.end(); i++)
+	for(unsigned int i = 0; i < _board.sizeY; ++i)
 	{
-		for(auto j = i->begin(); j != i->end(); ++j)
+		for(unsigned j = 0; j < _board.sizeX; ++j)
 		{
-			printf("%c", (*j == true) ? 'x' : '.');
+			printf("%c", (_board.BoardFront[i][j] == true) ? 'x' : '.');
 		}
 		printf("\n");
 	}
@@ -115,19 +114,25 @@ void BoardManager::print() const
 
 void BoardManager::print(const std::string& fileNameOut) const
 {
-	using namespace std;
-	ofstream fileOut(fileNameOut.c_str());
+	FILE* fileOut = NULL;
 	char c;
 
-	fileOut << _board.BoardFront[0].size() << ',' << _board.BoardFront.size() << endl;
-	for(auto i = _board.BoardFront.begin(); i != _board.BoardFront.end(); i++)
+	fileOut = fopen(fileNameOut.c_str(), "w");
+	if (fileOut == NULL)
 	{
-		for(auto j = i->begin(); j != i->end(); ++j)
-		{
-			c = (*j == true) ? 'x' : '.';
-			fileOut << c;
-		}
-		fileOut << endl;
+		printf("Error creating/opening %s for output.\n", fileNameOut.c_str());
 	}
-	fileOut.close();
+
+	fprintf(fileOut, "%d,%d\n", _board.sizeX, _board.sizeY);
+	for(unsigned int i = 0; i < _board.sizeY; ++i)
+	{
+		for(unsigned int j = 0; j < _board.sizeX; ++j)
+		{
+			c = (_board.BoardFront[i][j] == true) ? 'x' : '.';
+			fprintf(fileOut, "%c", c);
+		}
+		fprintf(fileOut, "\n");
+	}
+	
+	fclose(fileOut);
 }

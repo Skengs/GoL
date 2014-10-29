@@ -13,10 +13,10 @@ LogicSEQ::~LogicSEQ(void)
 
 void LogicSEQ::runLifeCycle(BoardData& board, unsigned int generations)
 {
-	unsigned int lengthX = board.BoardFront[0].size();
-	unsigned int lengthY = board.BoardFront.size();
+	unsigned int lengthX = board.sizeX;
+	unsigned int lengthY = board.sizeY;
 	int countLives = 0;
-	int y_index, x_index;
+	//int y_index, x_index;
 
 	for(unsigned int h = 0; h < generations; ++h)
 	{
@@ -26,34 +26,7 @@ void LogicSEQ::runLifeCycle(BoardData& board, unsigned int generations)
 			for(unsigned int j = 0; j < lengthX; ++j)
 			{
 				countLives = 0;
-
-				/*
-				// check neighbars of each element
-				for(int k = -1; k <= 1; ++k)
-				{
-					// check for y boundary
-					y_index = i + k;
-					if(y_index == -1)
-						y_index = lengthY-1;
-					else if(y_index == lengthY)
-						y_index = 0;
-
-					for(int l = -1; l <= 1; ++l)
-					{
-						// check for x boundary
-						x_index = j + l;
-						if(x_index == -1)
-							x_index = lengthX-1;
-						else if(x_index == lengthX)
-							x_index = 0;
-
-						countLives += board.BoardFront[y_index][x_index];
-					}
-				}
-				countLives -= board.BoardFront[i][j];
-				*/
-
-				
+		
 				// top left
 				countLives += board.BoardFront[(lengthY+i-1)%lengthY][(lengthX+j-1)%lengthX];
 				// top

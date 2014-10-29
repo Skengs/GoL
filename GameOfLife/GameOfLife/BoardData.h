@@ -10,6 +10,10 @@ public:
 
 	void Swap();
 
-	std::vector<std::vector<bool>> BoardFront, BoardBack;
+	//std::vector<std::vector<bool>> BoardFront, BoardBack;
+	bool** BoardFront;
+	bool** BoardBack;
+	unsigned int sizeX;
+	unsigned int sizeY;
 };
 

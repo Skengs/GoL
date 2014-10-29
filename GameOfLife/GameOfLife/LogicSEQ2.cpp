@@ -10,11 +10,15 @@ LogicSEQ2::~LogicSEQ2(void)
 {
 }
 
-
+/*
+** Basically brute borce, but pays special (hardcoded)
+** attention to the 4 corners and 4 borders, so that the
+** rest of the board can be checked even faster.
+*/
 void LogicSEQ2::runLifeCycle(BoardData& board, unsigned int generations)
 {
-	unsigned int lengthX = board.BoardFront[0].size();
-	unsigned int lengthY = board.BoardFront.size();
+	unsigned int lengthX = board.sizeX;
+	unsigned int lengthY = board.sizeY;
 	int countLives = 0;
 
 	for(unsigned int h = 0; h < generations; ++h)
@@ -43,6 +47,7 @@ void LogicSEQ2::runLifeCycle(BoardData& board, unsigned int generations)
 
 		applyLogicForCell(board, 0, 0, countLives);
 
+
 		// TOP RIGHT CORNER
 		countLives = 0;
 		// top left
@@ -63,6 +68,7 @@ void LogicSEQ2::runLifeCycle(BoardData& board, unsigned int generations)
 		countLives += board.BoardFront[1][0];
 
 		applyLogicForCell(board, 0, lengthX-1, countLives);
+
 
 		// BOTTOM RIGHT CORNER
 		countLives = 0;
@@ -85,6 +91,7 @@ void LogicSEQ2::runLifeCycle(BoardData& board, unsigned int generations)
 
 		applyLogicForCell(board, lengthY-1, lengthX-1, countLives);
 
+
 		// BOTTOM LEFT CORNER
 		countLives = 0;
 		// top left
@@ -104,7 +111,8 @@ void LogicSEQ2::runLifeCycle(BoardData& board, unsigned int generations)
 		//bottom right
 		countLives += board.BoardFront[0][1];
 
-		applyLogicForCell(board, 0, 0, countLives);
+		applyLogicForCell(board, lengthY-1, 0, countLives);
+
 
 		// --- CALC 4 BORDERS ---
 
@@ -157,7 +165,7 @@ void LogicSEQ2::runLifeCycle(BoardData& board, unsigned int generations)
 		}
 
 		// LEFT BORDER
-		for(unsigned int i = 1; i < lengthX-1; ++i)
+		for(unsigned int i = 1; i < lengthY-1; ++i)
 		{
 			countLives = 0;
 			// top left
@@ -181,7 +189,7 @@ void LogicSEQ2::runLifeCycle(BoardData& board, unsigned int generations)
 		}
 
 		// RIGHT BORDER
-		for(unsigned int i = 1; i < lengthX-1; ++i)
+		for(unsigned int i = 1; i < lengthY-1; ++i)
 		{
 			countLives = 0;
 			// top left
