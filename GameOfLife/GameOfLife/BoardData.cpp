@@ -12,13 +12,19 @@ BoardData::BoardData(void)
 
 BoardData::~BoardData(void)
 {
-	for(unsigned int i = 0; i < sizeY; ++i)
+	// Are you sure it's undefined behaviour to delete a null pointer?
+	// Stefan Reinalter "made sure" we know that it's safe
+	if(BoardFront != NULL)
 	{
-		delete[] BoardFront[i];
-		delete[] BoardBack[i];
+		delete[] BoardFront[0]; // deletes whole board --> see BoardManager::readMapFromFile(...) why
+		delete[] BoardFront;
 	}
-	delete[] BoardFront;
-	delete[] BoardBack;
+
+	if(BoardBack != NULL)
+	{
+		delete[] BoardBack[0];
+		delete[] BoardBack;
+	}
 }
 
 

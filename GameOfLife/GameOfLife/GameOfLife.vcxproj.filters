@@ -42,6 +42,9 @@
     <ClInclude Include="LogicSEQ2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LogicMP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -63,6 +66,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LogicSEQ2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LogicMP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

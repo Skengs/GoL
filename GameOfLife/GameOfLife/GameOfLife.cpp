@@ -72,6 +72,10 @@ int main(int argc, const char* argv[])
 	{
 		boardManager->setLogicMode(LogicMode::SEQ);
 	}
+	else if(strcmp(mode.c_str(), "mp") == 0)
+	{
+		boardManager->setLogicMode(LogicMode::MP);
+	}
 	// ADD MODES HERE (2 of 3)
 
 

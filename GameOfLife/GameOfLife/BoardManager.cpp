@@ -1,10 +1,12 @@
 #include "BoardManager.h"
+#include "LogicSEQ.h"
+#include "LogicSEQ2.h"
+#include "LogicMP.h"
 
 
 BoardManager::BoardManager(void)
 	: _logic(new LogicSEQ())
 {
-
 }
 
 
@@ -48,16 +50,22 @@ int BoardManager::readMapFromFile(const std::string& fileName)
 	_board.sizeX = x;
 	_board.sizeY = y;
 
-	// read rest of map
+	// create boards
 	_board.BoardFront = new bool*[y];
 	_board.BoardBack = new bool*[y];
 
-	for(unsigned int i = 0; i < y; ++i)
+	// [0] holds the whole board (1D)
+	_board.BoardFront[0] = new bool[x * y];
+	_board.BoardBack[0] = new bool[x * y];
+
+	// manually set pointers to rows of the board
+	for(unsigned int i = 1; i < y; ++i)
 	{
-		_board.BoardFront[i] = new bool[x];
-		_board.BoardBack[i] = new bool[x];
+		_board.BoardFront[i] = _board.BoardFront[0] + i * x;
+		_board.BoardBack[i] = _board.BoardBack[0] + i * x;
 	}
 
+	// read rest of file
 	for(unsigned int i = 0; getline(myfile, line) && i < y; ++i)
 	{
 		if(line.length() > x || line.length() < x)
@@ -86,6 +94,11 @@ void BoardManager::setLogicMode(LogicMode mode)
 	case LogicMode::SEQ2:
 		delete _logic;
 		_logic = new LogicSEQ2();
+		break;
+
+	case LogicMode::MP:
+		delete _logic;
+		_logic = new LogicMP();
 		break;
 
 	// ADD MODES HERE (3 of 3)

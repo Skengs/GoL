@@ -18,9 +18,11 @@
 #include <fstream>
 #include <vector>
 
-enum LogicMode{
+enum LogicMode
+{
 	SEQ,
-	SEQ2
+	SEQ2,
+	MP
 	// ADD MODES HERE (1 of 3)
 };
 

@@ -3,8 +3,6 @@
 #include "stdafx.h"
 #include "BoardData.h"
 #include "ILogic.h"
-#include "LogicSEQ.h"
-#include "LogicSEQ2.h"
 
 class BoardManager
 {

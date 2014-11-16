@@ -52,6 +52,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -67,6 +68,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -82,6 +84,7 @@
     <ClInclude Include="BoardData.h" />
     <ClInclude Include="BoardManager.h" />
     <ClInclude Include="ILogic.h" />
+    <ClInclude Include="LogicMP.h" />
     <ClInclude Include="LogicSEQ.h" />
     <ClInclude Include="LogicSEQ2.h" />
     <ClInclude Include="stdafx.h" />
@@ -92,6 +95,7 @@
     <ClCompile Include="BoardData.cpp" />
     <ClCompile Include="BoardManager.cpp" />
     <ClCompile Include="GameOfLife.cpp" />
+    <ClCompile Include="LogicMP.cpp" />
     <ClCompile Include="LogicSEQ.cpp" />
     <ClCompile Include="LogicSEQ2.cpp" />
     <ClCompile Include="stdafx.cpp" />
